@@ -1,58 +1,41 @@
-package com.example.app2;
+package com.example.listview;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    
+    ListView myList ;
+    String countryList[] ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText num1 = findViewById(R.id.num1);
-        EditText num2 = findViewById(R.id.num2);
-        TextView sum = (TextView) findViewById(R.id.sum);
 
+        myList = findViewById(R.id.list) ;
+        countryList = getResources().getStringArray(R.array.country) ;
 
-        Button bt = findViewById(R.id.button);
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int a = Integer.parseInt(num1.getText().toString());
-                int b = Integer.parseInt(num2.getText().toString());
-                int res = a+b;
-                sum.setText(Integer.toString(res));
+        ArrayAdapter<String> arrayAdapter = new
+                ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item,
+                countryList);
+        myList.setAdapter(arrayAdapter);
 
-
-            }
-        });
-
-
-    }
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        Toast.makeText(getApplicationContext(),"Activity Paused",Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-        Toast.makeText(getApplicationContext(),"Activity Stopped",Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Toast.makeText(getApplicationContext(),"Activity Started",Toast.LENGTH_LONG).show();
+        myList.setOnItemClickListener(new
+          AdapterView.OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int
+                      position, long id) {
+                  Toast.makeText(MainActivity.this, "You have clicked:"+parent.getItemAtPosition(position),
+                  Toast.LENGTH_SHORT).show();
+              }
+          });
     }
 }
